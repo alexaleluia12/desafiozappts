@@ -1,8 +1,8 @@
-const letterSchema = require('../models/letterSchema');
+const letterSchemaCreate = require('../models/letterSchemaCreate');
 const LetterDB = require('../models/letterDB');
 
 module.exports = async (req, resp) => {
-    const { value, error } = letterSchema.validate(req.body);
+    const { value, error } = letterSchemaCreate.validate(req.body);
     if (error) {
         resp.status(400).json({
             'message': error.details[0].message,

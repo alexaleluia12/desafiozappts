@@ -127,4 +127,39 @@ describe('tests', () => {
             });
         });
     });
+
+    describe('PATCH /letter', () => {
+        it('shoud update one letter', (done) => {
+            const app = appBuilder();
+            const server = app.listen();
+            request(server)
+            .post('/letter')
+            .send(letter)
+            .end((err, res) => {
+                if (err)
+                    return done(err);
+
+                request(server)
+                .get('/letter')
+                .end((err2, res2) => {
+                    if (err2)
+                        done(err2);
+
+                    const letterObj = res2.body[0];
+                    const newLetter = {
+                        id: letterObj.id,
+                        text: letterObj.content + '. So mais uma coisa, boneco.',
+                    }
+                    request(server)
+                    .patch('/letter')
+                    .send(newLetter)
+                    .end((err3, res3) => {
+                        expect(res3.statusCode).to.equal(200);
+                        expect(res3.body.message).eql('updated rows 1')
+                        done();
+                    });
+                });
+            });
+        });
+    });
 });

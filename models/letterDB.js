@@ -24,7 +24,7 @@ class Letter {
         const db = new sqlite3.Database(DBNAME, generalErrorHandler);
 
         let query = 'SELECT * FROM letter';
-        let parameters = [];
+        const parameters = [];
         if (letterId) {
            query += ` WHERE id = ?`;
            parameters.push(letterId);
@@ -48,6 +48,37 @@ class Letter {
         let query = 'DELETE FROM letter WHERE id = ?';
         return new Promise((resolve, reject) => {
             db.run(query, [letterId], function(err){
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    db.close(generalErrorHandler);
+                    resolve(this.changes);
+                }
+            });
+        });
+    }
+
+    update(data) {
+        const db = new sqlite3.Database(DBNAME, generalErrorHandler);
+
+        const parameters = [];
+        let query = 'UPDATE letter SET ';
+        if (data.text) {
+            parameters.push(data.text);
+            query += ' content = ? '
+        }
+        if (data.owner) {
+            parameters.push(data.owner);
+            if (parameters.length > 1)
+                query += ',';
+            query += ' owner = ? '
+        }
+        query += 'WHERE id = ?';
+        parameters.push(data.id);
+
+        return new Promise((resolve, reject) => {
+            db.run(query, parameters, function(err){
                 if (err) {
                     reject(err);
                 }
