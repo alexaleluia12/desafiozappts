@@ -19,6 +19,27 @@ class Letter {
             });
         });
     }
+
+    featch(letterId) {
+        const db = new sqlite3.Database(DBNAME, generalErrorHandler)
+
+        let query = 'SELECT * FROM letter';
+        if (letterId) {
+           query += ` WHERE id = ${letterId}`;
+        }
+        return new Promise((resolve, reject) => {
+            db.all(query, [], (err, rows) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    db.close(generalErrorHandler);
+                    resolve(rows);
+                }
+            });
+        });
+    }
+
 }
 
 module.exports = Letter;
