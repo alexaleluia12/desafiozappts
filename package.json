@@ -1,0 +1,36 @@
+{
+  "name": "desafiozappts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests --exit",
+    "build": "tsc --project ./",
+    "start": "nodemon index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexaleluia12/desafiozappts.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexaleluia12/desafiozappts/issues"
+  },
+  "homepage": "https://github.com/alexaleluia12/desafiozappts#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "joi": "^17.4.0",
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "chai": "^4.3.3",
+    "mocha": "^8.3.1",
+    "nodemon": "^2.0.7",
+    "supertest": "^6.1.3"
+  },
+  "engines": {
+    "node": ">= 12.0.0"
+  }
+}
