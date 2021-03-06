@@ -56,12 +56,12 @@ describe('tests', () => {
                     return done(err);
 
                 request(server)
-                .get('/letter/1')
+                .get('/letter/1773609a')
                 .end((err2, res2) => {
                     if (err2)
                         done(err2);
                     expect(res2.statusCode).to.equal(200);
-                    expect(res2.body.length).eql(1)
+                    expect(res2.body.length).eql(0)
                     done();
                 })
 
@@ -88,9 +88,43 @@ describe('tests', () => {
                     expect(res2.body.length).gt(1)
                     done();
                 })
-
             });
         });
+    });
 
+    describe('DELETE /letter/:id', () => {
+
+        it('shoud delete a letter', (done) => {
+            const app = appBuilder();
+            const server = app.listen();
+
+            request(server)
+            .post('/letter')
+            .send(letter)
+            .end((err, res) => {
+                if (err)
+                    return done(err);
+
+                request(server)
+                .get('/letter')
+                .end((err2, res2) => {
+                    if (err2)
+                        done(err2);
+                    const letterId = res2.body[0].id;
+
+                    request(server)
+                    .delete(`/letter/${letterId}`)
+                    .end((err3, res3) => {
+                        if (err3)
+                            done(err3);
+
+                        expect(res3.statusCode).to.equal(200);
+                        expect(res3.body).eql({'message': 'delete 1 registers'})
+                        done();
+                    });
+
+                })
+            });
+        });
     });
 });

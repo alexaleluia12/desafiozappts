@@ -5,7 +5,7 @@ module.exports = async (req, resp) => {
 
     try {
         const letter = new LetterDB();
-        const result = await letter.featch(letterId);
+        const result = await letter.fetch(letterId);
         resp.json(result);
     } catch (error) {
         console.log(error)
